@@ -4,12 +4,15 @@ import "leaflet/dist/leaflet.css";
 
 import L from "leaflet";
 import { RefreshCcw } from "lucide-react";
+import dynamic from "next/dynamic";
 import React, { useState } from "react";
-import { MapContainer, Marker, TileLayer } from "react-leaflet";
 
+import { Coordinates } from "@/components/map";
 import Settings from "@/components/settings";
 import { Button } from "@/components/ui/button";
 import { useSettingsStore } from "@/store/use-settings-store";
+
+const Map = dynamic(() => import("@/components/map"), { ssr: false });
 
 // Fix for default marker icon in react-leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -21,11 +24,6 @@ L.Icon.Default.mergeOptions({
   shadowUrl:
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-shadow.png",
 });
-
-interface Coordinates {
-  latitude: number;
-  longitude: number;
-}
 
 export default function Page() {
   const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
@@ -73,23 +71,7 @@ export default function Page() {
         {error && <p className="mb-4 text-red-500">{error}</p>}
       </section>
 
-      {coordinates && (
-        <div className="h-[740px] w-full">
-          <MapContainer
-            center={[coordinates.latitude, coordinates.longitude]}
-            zoom={1}
-            className="h-full w-screen"
-          >
-            <TileLayer
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            />
-            <Marker
-              position={[coordinates.latitude, coordinates.longitude]}
-            ></Marker>
-          </MapContainer>
-        </div>
-      )}
+      {coordinates && <Map coordinates={coordinates} />}
     </div>
   );
 }
