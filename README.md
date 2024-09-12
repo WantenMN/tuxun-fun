@@ -1,5 +1,7 @@
 ## Getting Started
 
+This tool currently supports only the **solo** match game mode.
+
 1. Clone the repository:
 
    ```sh
@@ -30,3 +32,9 @@
    - fun_ticket
    - SESSION
    - gameId
+
+## Video Guide
+
+For a visual walkthrough of how to use this tool, check out the video guide below:
+
+[https://youtu.be/stKF4dMQahc](https://youtu.be/stKF4dMQahc)
